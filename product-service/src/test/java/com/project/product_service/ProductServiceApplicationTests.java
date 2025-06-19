@@ -23,7 +23,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.product_service.dto.ProductRequest;
+import com.project.product_service.model.Product;
 import com.project.product_service.repository.ProductRepository;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @Testcontainers
@@ -64,5 +66,21 @@ class ProductServiceApplicationTests {
 				.description("I phone 13")
 				.price(BigDecimal.valueOf(1200))
 				.build();
+	}
+
+	@Test
+	void shouldGetAllProducts() throws Exception {
+		productRepository.deleteAll(); // Optional: clear DB before test
+
+		productRepository.save(Product.builder()
+				.name("Samsung S22")
+				.description("Latest Samsung phone")
+				.price(BigDecimal.valueOf(999))
+				.build());
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/product"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.length()").value(1))
+				.andExpect(jsonPath("$[0].name").value("Samsung S22"));
 	}
 }
