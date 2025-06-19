@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 /**
  * Data Transfer Object (DTO) used to receive product creation or update
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Data // Lombok: generates getters, setters, toString, equals, and hashCode methods
 @AllArgsConstructor // Lombok: generates a constructor with all fields
 @NoArgsConstructor // Lombok: generates a no-argument constructor
+@Builder
 public class ProductRequest {
 
     /**
